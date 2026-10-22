@@ -1,0 +1,2 @@
+{"id":"./","name":"駅伝監督","short_name":"駅伝監督","description":"大学駅伝の監督シミュレーション","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#0b1120","theme_color":"#0b1120","lang":"ja","categories":["games","sports"],
+"icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"},{"src":"icon-maskable.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]}

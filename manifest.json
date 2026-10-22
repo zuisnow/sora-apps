@@ -1,0 +1,2 @@
+{"id":"./","name":"脳と医工学","short_name":"脳と医工学","description":"脳に関わる医工学のニュースと論文","start_url":"./","scope":"./","display":"standalone","orientation":"portrait","background_color":"#0b1120","theme_color":"#0b1120","lang":"ja","categories":["news","medical"],
+"icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"},{"src":"icon-maskable.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]}
