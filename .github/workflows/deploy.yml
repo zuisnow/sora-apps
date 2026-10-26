@@ -1,0 +1,54 @@
+name: Deploy sora-apps
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Unzip the newest uploaded zip into _site
+        run: |
+          set -e
+          Z=""; T=0
+          for z in *.zip; do
+            [ -e "$z" ] || continue
+            t=$(git log -1 --format=%ct -- "$z"); t=${t:-0}
+            if [ "$t" -ge "$T" ]; then T=$t; Z="$z"; fi
+          done
+          if [ -z "$Z" ]; then echo "::error::リポジトリに zip がありません。sora-apps.zip をアップロードしてください"; exit 1; fi
+          echo "使用する zip: $Z"
+          mkdir -p _site
+          unzip -q -o "$Z" -d _site
+          if [ ! -d _site/ekiden ]; then
+            inner=$(ls -d _site/*/ekiden 2>/dev/null | head -n1 || true)
+            if [ -n "$inner" ]; then cp -r "$(dirname "$inner")"/. _site/; fi
+          fi
+          touch _site/.nojekyll
+          if [ ! -f _site/ekiden/index.html ]; then echo "::error::zip の中に ekiden/index.html が見つかりません"; exit 1; fi
+          ls -R _site | head -n 40
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
